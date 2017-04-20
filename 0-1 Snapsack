@@ -1,0 +1,37 @@
+//URI Online Judge | 1286 | Motoboy
+#include <bits/stdc++.h>
+#define pii pair<int,int>
+#define ll long long 
+#define pll pair<ll,ll>
+using namespace std;
+int n,l,aux,co;
+vector<int> ga;
+vector<int> wt;
+map<pair<int,int>,int> m;
+int f(int w,int it){
+	//cout<<"::AT "<<w<<" "<<it<<endl;
+	if(w<=0||it>n-1)return 0;
+	if(m.find(make_pair(w,it))!=m.end())return m[make_pair(w,it)];
+	//cout<<"Picking: "<<endl;
+	int pi=w-wt[it]>=0?ga[it]+f(w-wt[it],it+1):0;
+	//cout<<"No Picking: "<<endl;
+	int npi=f(w,it+1);
+	int bf=max(pi,npi);
+	m[make_pair(w,it)]=bf; //Memoization
+	return bf;
+}
+int main(){
+	while(cin>>n){
+		if(n==0)break;
+		wt.clear();
+		ga.clear();
+		m.clear();
+		cin>>l;
+		for(int i=0;i<n;i++){
+			cin>>aux>>co;//aux is what you gain for the item and co is what you have to pay
+			wt.push_back(co);
+			ga.push_back(aux);
+		}
+		cout<<f(l,0)<<" min."<<endl;
+	}
+}
